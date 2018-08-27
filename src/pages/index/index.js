@@ -21,10 +21,16 @@ export default class Index extends Component {
         const result = await ajax({url: '/api/user/loginByCode', data: {code: res.code}});
         this.setState({checked: true});
         if (result.user) {
+          this.getMyTask();
           this.setState({currentUser: result.user});
         }
       }
     });
+  }
+
+  async getMyTask() {
+    const myTasks = await ajax({url: "/api/task/mine"});
+    console.log(myTasks);
   }
 
   onChangeField({detail, currentTarget}) {
@@ -34,9 +40,9 @@ export default class Index extends Component {
   }
 
   async bindUser() {
-    // console.log(this.state.form);
-    const result = await ajax({url: '/api/user/bind', data: this.state.form});
-    console.log(result);
+    const currentUser = await ajax({url: '/api/user/bind', data: {...this.state.form, code: 'a'}});
+    this.setState({currentUser});
+    this.getMyTask();
   }
 
   render() {
@@ -47,7 +53,7 @@ export default class Index extends Component {
           <View className='bind-container'>
             <Input className="row" placeholder='账号' onChange={this.onChangeField.bind(this)} data-field={'account'}/>
             <Input className="row" password placeholder='密码' onChange={this.onChangeField.bind(this)}
-                   data-field={'account'}/>
+                   data-field={'password'}/>
             <Button onClick={this.bindUser.bind(this)}>绑定</Button>
           </View>
         )}
