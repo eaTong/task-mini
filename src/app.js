@@ -10,6 +10,7 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/bind/bind',
+      'pages/addDraft/addDraft',
     ],
     window: {
       backgroundTextStyle: 'light',

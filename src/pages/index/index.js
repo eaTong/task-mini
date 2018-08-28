@@ -1,5 +1,5 @@
-import Taro, {Component} from '@tarojs/taro'
-import {View, Text, Input, Button} from '@tarojs/components'
+import Taro, {Component, navigateTo} from '@tarojs/taro'
+import {View, Text, Input, Button, Icon} from '@tarojs/components'
 import './index.less';
 import ajax from '../../utils/ajax';
 
@@ -29,8 +29,8 @@ export default class Index extends Component {
   }
 
   async getMyTask() {
-    const myTasks = await ajax({url: "/api/task/mine"});
-    console.log(myTasks);
+    const myTask = await ajax({url: "/api/task/mine"});
+    this.setState({myTask});
   }
 
   onChangeField({detail, currentTarget}) {
@@ -45,8 +45,16 @@ export default class Index extends Component {
     this.getMyTask();
   }
 
+  addDraft() {
+    navigateTo({url: '/pages/addDraft/addDraft'});
+  }
+
+  addJournal() {
+    navigateTo({url: '/pages/addJournal/addJournal'});
+  }
+
   render() {
-    const {checked, currentUser} = this.state;
+    const {checked, currentUser, myTask, showButtons} = this.state;
     return (
       <View className='index-page'>
         {checked && !currentUser && (
@@ -57,6 +65,24 @@ export default class Index extends Component {
             <Button onClick={this.bindUser.bind(this)}>绑定</Button>
           </View>
         )}
+        <View className="task-list">
+          {myTask.map(item => <View key={item.key} className="task-item">{item.title}</View>)}
+        </View>
+
+        <View className="operator-container">
+
+          <View className="button warning">
+            <Text>发布</Text>
+          </View>
+          <View className="button error" onClick={this.addDraft}>
+            <Text>速记</Text>
+          </View>
+          <View className="button primary">
+            <Text>写日志</Text>
+          </View>
+
+
+        </View>
       </View>
     )
   }
