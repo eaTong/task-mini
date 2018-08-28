@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "taro-test",
+  "projectname": "艾可思任务协作",
   "description": "aha",
-  "appid": "touristappid",
+  "appid": "wx220ba205793ff98b",
   "setting": {
     "urlCheck": true,
     "es6": false,

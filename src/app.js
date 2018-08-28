@@ -3,7 +3,6 @@ import Index from './pages/index';
 import Bind from './pages/bind/bind';
 
 import './app.less'
-
 class App extends Component {
 
   config = {
@@ -18,6 +17,10 @@ class App extends Component {
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
     }
+  };
+
+  globalData = {
+    primaryColor:"#2f54eb"
   };
 
   componentDidMount() {

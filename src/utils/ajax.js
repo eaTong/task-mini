@@ -1,4 +1,5 @@
 let cookie = '';
+const app = getApp();
 
 export default function ajax(config) {
   return new Promise((resolve, reject) => {
@@ -7,17 +8,18 @@ export default function ajax(config) {
       data: config.data,
       method: (config.method || 'POST').toUpperCase(),
       header: {
-        'Cookie': cookie,
+        'Cookie': app.globalData.cookie,
       },
       success: (res) => {
-        cookie = res.header['Set-Cookie'];
         if (res.data && res.data.success) {
           resolve(res.data.data);
         } else {
           reject();
         }
       }, complete: (res) => {
-        console.log(res);
+        if (res.header['Set-Cookie']) {
+          app.globalData.cookie = res.header['Set-Cookie'];
+        }
       }
     })
   });
