@@ -45,6 +45,11 @@ export default class Index extends Component {
     this.getMyTask();
   }
 
+  publishTask() {
+    navigateTo({url: '/pages/addTask/addTask?draftId=1&draftName=ahahahah'});
+  }
+
+
   addDraft() {
     navigateTo({url: '/pages/draft/draft'});
   }
@@ -72,7 +77,7 @@ export default class Index extends Component {
         <View className="operator-container">
 
           <View className="button warning">
-            <Text>发布</Text>
+            <Text onClick={this.publishTask}>发布任务</Text>
           </View>
           <View className="button error" onClick={this.addDraft}>
             <Text>速记</Text>

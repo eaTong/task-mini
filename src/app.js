@@ -1,7 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
 import Index from './pages/index';
-import Bind from './pages/bind/bind';
-
 import './app.less'
 class App extends Component {
 
@@ -9,6 +7,7 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/draft/draft',
+      'pages/addTask/addTask',
     ],
     window: {
       backgroundTextStyle: 'light',

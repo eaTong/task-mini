@@ -13,7 +13,8 @@ export default class Draft extends Component {
   state = {
     myDrafts: [],
     showAll: false,
-    draftValue: ''
+    draftValue: '',
+    operatingIndex: 0
   };
 
   async componentDidMount() {
@@ -33,13 +34,16 @@ export default class Draft extends Component {
 
   async Draft() {
     const title = this.state.draftValue;
-    await ajax({
-      url: '/api/draft/add',
-      data: {title}
-    });
+    if (title) {
 
-    this.setState({draftValue: ''});
-    await this.getMyDrafts();
+      await ajax({
+        url: '/api/draft/add',
+        data: {title}
+      });
+
+      this.setState({draftValue: ''});
+      await this.getMyDrafts();
+    }
   }
 
   async onDraftChange({detail}) {
@@ -47,13 +51,19 @@ export default class Draft extends Component {
   }
 
   render() {
-    const {draftValue, showAll, myDrafts} = this.state;
+    const {draftValue, showAll, myDrafts, operatingIndex} = this.state;
     return (
       <View className='draft-page'>
         <View className="draft-list">
-          {myDrafts.map(draft => (
+          {myDrafts.map((draft, index) => (
             <View className="draft-item" key={draft.id}>
-              <Text>{draft.title}</Text>
+              <Text className="title">{draft.title}</Text>
+              {index === operatingIndex && (
+                <View className="operate-bar">
+                  <Text className="operate-button ghost error-text">丢弃</Text>
+                  <Text className="operate-button ghost primary-text">转任务</Text>
+                </View>
+              )}
             </View>
           ))}
         </View>

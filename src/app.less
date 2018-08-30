@@ -1,5 +1,17 @@
 @import "varible";
 
+.primary-text {
+  color: @mainColor !important;
+}
+
+.error-text {
+  color: @errorColor !important;;
+}
+
+.warning-text {
+  color: @warnColor !important;;
+}
+
 .button {
   width: 100px;
   height: 100px;
@@ -25,7 +37,24 @@
   &.error {
     background-color: @errorColor;
   }
+  &.ghost{
+    background-color: inherit;
+  }
 }
-.wx-switch-input{width:100px !important;height:60px !important;}
-.wx-switch-input::before{width:98px !important;height: 60px !important;}
-.wx-switch-input::after{width: 58px !important;height: 58px !important;}//中间小圆球
+
+.wx-switch-input {
+  width: 100px !important;
+  height: 60px !important;
+}
+
+.wx-switch-input::before {
+  width: 98px !important;
+  height: 60px !important;
+}
+
+.wx-switch-input::after {
+  width: 58px !important;
+  height: 58px !important;
+}
+
+//中间小圆球
