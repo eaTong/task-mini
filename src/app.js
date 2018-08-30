@@ -8,8 +8,7 @@ class App extends Component {
   config = {
     pages: [
       'pages/index/index',
-      'pages/bind/bind',
-      'pages/addDraft/addDraft',
+      'pages/draft/draft',
     ],
     window: {
       backgroundTextStyle: 'light',

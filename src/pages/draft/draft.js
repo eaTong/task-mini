@@ -1,11 +1,11 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Text, Input, Button, Icon, Checkbox, Label, Switch} from '@tarojs/components'
-import './addDraft.less';
+import './draft.less';
 import ajax from '../../utils/ajax';
 
 const app = getApp();
 
-export default class AddDraft extends Component {
+export default class Draft extends Component {
 
   config = {
     navigationBarTitleText: '速记'
@@ -21,7 +21,6 @@ export default class AddDraft extends Component {
   }
 
   async getMyDrafts() {
-
     const myDrafts = await ajax({
       url: '/api/draft/mine'
     });
@@ -32,7 +31,7 @@ export default class AddDraft extends Component {
     this.setState({showAll: detail.value});
   }
 
-  async addDraft() {
+  async Draft() {
     const title = this.state.draftValue;
     await ajax({
       url: '/api/draft/add',
@@ -50,12 +49,14 @@ export default class AddDraft extends Component {
   render() {
     const {draftValue, showAll, myDrafts} = this.state;
     return (
-      <View className='add-draft-page'>
-        {myDrafts.map(draft => (
-          <View className="draft-item" key={draft.id}>
-            <Text>{draft.title}</Text>
-          </View>
-        ))}
+      <View className='draft-page'>
+        <View className="draft-list">
+          {myDrafts.map(draft => (
+            <View className="draft-item" key={draft.id}>
+              <Text>{draft.title}</Text>
+            </View>
+          ))}
+        </View>
 
         <View className="show-all">
           <Text className="label">显示所有</Text>
@@ -63,7 +64,7 @@ export default class AddDraft extends Component {
         </View>
         <View className="add-draft-container">
           <Input value={draftValue} placeholder="输入速记内容" onChange={this.onDraftChange.bind(this)}/>
-          <Button onClick={this.addDraft.bind(this)}>添加</Button>
+          <Button onClick={this.Draft.bind(this)}>添加</Button>
         </View>
       </View>
     )

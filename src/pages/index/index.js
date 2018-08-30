@@ -46,7 +46,7 @@ export default class Index extends Component {
   }
 
   addDraft() {
-    navigateTo({url: '/pages/addDraft/addDraft'});
+    navigateTo({url: '/pages/draft/draft'});
   }
 
   addJournal() {
@@ -54,7 +54,7 @@ export default class Index extends Component {
   }
 
   render() {
-    const {checked, currentUser, myTask, showButtons} = this.state;
+    const {checked, currentUser, myTask} = this.state;
     return (
       <View className='index-page'>
         {checked && !currentUser && (
