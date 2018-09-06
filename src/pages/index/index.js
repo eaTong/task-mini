@@ -1,8 +1,10 @@
 import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components'
 import './index.less';
+import {AtSegmentedControl} from 'taro-ui';
 import ajax from '../../utils/ajax';
-import {emergentLevel, importantLevel} from '../../utils/constants'
+import {emergentLevel, importantLevel} from '../../utils/constants';
+import TaskItem from '../../components/TaskItem';
 
 export default class Index extends Component {
 
@@ -14,7 +16,8 @@ export default class Index extends Component {
     groupedTasks: [],
     currentUser: null,
     checked: false,
-    form: {}
+    form: {},
+    currentTab: 0
   };
 
   componentDidMount() {
@@ -33,12 +36,7 @@ export default class Index extends Component {
   async getMyTask() {
     const groupedTasks = emergentLevel.map(level => ({...level, tasks: []}));
     const myTask = await ajax({url: "/api/task/mine"});
-    // this.setState({myTask});
-    myTask.forEach(item => {
-      groupedTasks[(item.emergent_level - 1) || 0].tasks.push(item);
-    });
-    // console.log(groupedTasks);
-    this.setState({groupedTasks: groupedTasks.filter(level => level.tasks.length).reverse()})
+    this.setState({myTask})
   }
 
   onChangeField({detail, currentTarget}) {
@@ -66,36 +64,38 @@ export default class Index extends Component {
     navigateTo({url: '/pages/addJournal/addJournal'});
   }
 
+  onChangeSegmented(currentTab) {
+    // console.log(a,b,c);
+    this.setState({currentTab});
+  }
+
   render() {
-    const {checked, currentUser, myTask, groupedTasks} = this.state;
-    return (
-      <View className='index-page'>
-        {checked && !currentUser && (
+    const {checked, currentUser, myTask, groupedTasks, currentTab} = this.state;
+
+    console.log(myTask);
+    if (checked && !currentUser) {
+      return (
+        <View className="index-page">
           <View className='bind-container'>
             <Input className="row" placeholder='账号' onChange={this.onChangeField.bind(this)} data-field={'account'}/>
             <Input className="row" password placeholder='密码' onChange={this.onChangeField.bind(this)}
                    data-field={'password'}/>
             <Button onClick={this.bindUser.bind(this)}>绑定</Button>
           </View>
-        )}
-        <View className="task-group">
-          {groupedTasks.map(group => (
-            <View  className={`emergent-level level-${group.value}`} key={group.value}>
-              <View className="label" style={{color:group.color}}>{group.label}</View>
-              <View className="task-list">
-
-                {group.tasks.map(item => (
-                  <View key={item.key} className="task-item">
-                    <View className="title">{item.title}</View>
-                    <Progress active showInfo percent={item.complete_percent} strokeWidth={2}/>
-                  </View>
-                ))}
-              </View>
-            </View>
-          ))}
         </View>
-        <View className="task-list">
-
+      )
+    }
+    return (
+      <View className='index-page'>
+        <View className="task-group">
+          <AtSegmentedControl
+            values={['未完成', '所有任务']}
+            onClick={this.onChangeSegmented.bind(this)}
+            current={currentTab}
+          />
+          {myTask.map(item => (
+            <TaskItem key={item.key} task={item}/>
+          ))}
         </View>
 
         <View className="operator-container">
