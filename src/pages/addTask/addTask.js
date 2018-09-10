@@ -6,19 +6,18 @@ import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Textarea, Button, Form, Icon, Picker} from '@tarojs/components'
 import './addTask.less';
 import ajax from '../../utils/ajax';
+import { AtInput, AtForm , AtTextarea } from 'taro-ui';
 
 export default class Index extends Component {
 
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '发布任务'
   };
   state = {
     form: {}
   };
 
   componentDidMount(a) {
-    console.log(a, this.$router.params);
-
     const params = this.$router.params;
     if (params) {
       this.setState({form: {draftId: params.draftId, title: params.draftName}});
@@ -36,40 +35,33 @@ export default class Index extends Component {
     console.log(result);
   }
 
-
+  handleChange(value , {currentTarget}){
+    console.log(value ,currentTarget);
+    // this.setData?
+    const {form} = this.state;
+    form[currentTarget.id] = value;
+    this.setState({form});
+  }
   render() {
     const {form} = this.state;
     return (
-      <Form className='index-page' onSubmit={this.onSubmit}>
-        <View className="form-item">
-          <View className="label">任务名称</View>
-          <Input value={form.title} onChange={this.onChangeField.bind(this)} name="title" data-field={'title'}/>
-        </View>
-        <View className="form-item">
-          <View className="label">任务描述</View>
-          <Textarea value={form.description} onChange={this.onChangeField.bind(this)} name="description"
-                    data-field={'description'}/>
-        </View>
-        <Picker mode='date' onChange={this.onChangeField.bind(this)} name="plan_start_date" data-field={'plan_start_date'}>
-          <View className="form-item">
-            <View className="label">计划开始时间</View>
-            <View>
-              {form.plan_start_date}
-            </View>
-          </View>
-        </Picker>
-        <Picker mode='date' onChange={this.onChangeField.bind(this)} name="plan_end_date" data-field={'plan_end_date'}>
-          <View className="form-item">
-            <View className="label">计划结束时间</View>
-            <View>
-
-              {form.plan_end_date}
-            </View>
-          </View>
-        </Picker>
-
-        <Button type="primary" formType="submit">提交</Button>
-      </Form>
+      <AtForm className='index-page' onSubmit={this.onSubmit}>
+        <AtInput
+          name='title'
+          title='标题'
+          type='text'
+          placeholder='标题'
+          value={form.title}
+          onChange={this.handleChange}
+        />
+        <AtTextarea
+          name={'description'}
+          value={form.description}
+          onChange={this.handleChange}
+          maxlength='200'
+          placeholder='你的问题是...'
+        />
+      </AtForm>
     )
   }
 }

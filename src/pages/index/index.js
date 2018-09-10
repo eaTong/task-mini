@@ -92,7 +92,7 @@ export default class Index extends Component {
             {/*current={currentTab}*/}
           {/*/>*/}
           {myTask.map(item => (
-            <TaskItem key='id' task={item} isRoot/>
+            <TaskItem key={item.id} task={item} isRoot/>
           ))}
         </View>
 
