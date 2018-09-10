@@ -5,35 +5,30 @@
 import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components';
 import {emergentLevel, importantLevel} from '../utils/constants';
-import {AtTag} from 'taro-ui'
+import {AtTag} from 'taro-ui';
+import './taskItem.less'
+import TaskChildren from "./TaskChildren";
 
 export default class TaskItem extends Component {
-  state = {
-    showChildren: true
+  static options = {
+    addGlobalClass: true
   };
-  defaultProps = {
-    task: {}
-  };
-
-  componentDidMount() {
-
-  }
-
 
   render() {
-    const {task} = this.props;
-    if (task) {
-      console.log(task, emergentLevel[task.emergent_level].label);
-      const emergentItem = emergentLevel[task.emergent_level];
-      return (
-        <View className="task-item">
-          <AtTag>{emergentItem.label}</AtTag>
+    const {task, isRoot} = this.props;
+    const emergentItem = emergentLevel[task.emergent_level - 1];
+    return (
+      <View className={`task-item ${isRoot ? 'root' : ''}`} key="id">
+        <View className="title-bar">
+          <Text className={`tag tag-level-${task.emergent_level}`}>{emergentItem.label}</Text>
           <View className="title">{task.title}</View>
           <View className='percentage'>{`${task.complete_percent}%`}</View>
         </View>
-      );
-    }
-
-    return <Text/>
+        {task.children && task.children.length > 0 && (
+          <TaskChildren childrenTasks={task.children}/>
+        )}
+      </View>
+    );
   }
+
 }

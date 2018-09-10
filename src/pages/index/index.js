@@ -9,7 +9,7 @@ import TaskItem from '../../components/TaskItem';
 export default class Index extends Component {
 
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '我的任务'
   };
   state = {
     myTask: [],
@@ -71,8 +71,6 @@ export default class Index extends Component {
 
   render() {
     const {checked, currentUser, myTask, groupedTasks, currentTab} = this.state;
-
-    console.log(myTask);
     if (checked && !currentUser) {
       return (
         <View className="index-page">
@@ -88,13 +86,13 @@ export default class Index extends Component {
     return (
       <View className='index-page'>
         <View className="task-group">
-          <AtSegmentedControl
-            values={['未完成', '所有任务']}
-            onClick={this.onChangeSegmented.bind(this)}
-            current={currentTab}
-          />
+          {/*<AtSegmentedControl*/}
+            {/*values={['未完成', '所有任务']}*/}
+            {/*onClick={this.onChangeSegmented.bind(this)}*/}
+            {/*current={currentTab}*/}
+          {/*/>*/}
           {myTask.map(item => (
-            <TaskItem key={item.key} task={item}/>
+            <TaskItem key='id' task={item} isRoot/>
           ))}
         </View>
 

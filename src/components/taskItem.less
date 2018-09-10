@@ -1,0 +1,48 @@
+@import "../varible";
+
+
+.task-item {
+  padding-left:15px;
+  background-color: rgba(55,55,55,0.05);
+  padding-bottom:4px;
+  &.root{
+    border-bottom: 2px solid #fff;
+  }
+  .title-bar {
+    display: flex;
+    padding:20px 10px;
+    .tag{
+      border: 1px solid @bgColor;
+      color:#fff;
+      padding:3px 10px;
+      font-size: 26px;
+      border-radius: 10px;
+      &.tag-level-5 {
+        background-color: #ffccc7;
+      }
+      &.tag-level-4 {
+        background-color: #ffd8bf;
+      }
+      &.tag-level-3 {
+        background-color: #ffe7ba;
+      }
+      &.tag-level-2 {
+        background-color:#f4ffb8;
+      }
+      &.tag-level-1 {
+        background-color: #b5f5ec;
+      }
+    }
+    .title {
+      flex: 1;
+      margin-left: 10px;
+      font-size: 30px;
+      line-height: 1.9;
+    }
+    .percentage{
+      font-size: 30px;
+      line-height: 1.9;
+
+    }
+  }
+}
