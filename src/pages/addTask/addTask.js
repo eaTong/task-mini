@@ -6,7 +6,11 @@ import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Textarea, Button, Form, Icon, Picker} from '@tarojs/components'
 import './addTask.less';
 import ajax from '../../utils/ajax';
-import { AtInput, AtForm , AtTextarea } from 'taro-ui';
+import {AtInput, AtForm, AtTextarea , AtButton} from 'taro-ui';
+import PickerItem from "../../components/PickerItem";
+import SliderItem from "../../components/SliderItem";
+import TextareaItem from "../../components/TextareaItem";
+
 
 export default class Index extends Component {
 
@@ -31,17 +35,18 @@ export default class Index extends Component {
   }
 
   async onSubmit({detail: {value}}) {
-    const result = await ajax({url: '/api/task/add' , data:value});
+    const result = await ajax({url: '/api/task/add', data: value});
     console.log(result);
   }
 
-  handleChange(value , {currentTarget}){
-    console.log(value ,currentTarget);
+  handleChange(value, {currentTarget}) {
+    console.log(value, currentTarget);
     // this.setData?
     const {form} = this.state;
     form[currentTarget.id] = value;
     this.setState({form});
   }
+
   render() {
     const {form} = this.state;
     return (
@@ -54,13 +59,26 @@ export default class Index extends Component {
           value={form.title}
           onChange={this.handleChange}
         />
-        <AtTextarea
-          name={'description'}
-          value={form.description}
+        <PickerItem label={'开始时间'} mode={'date'} name='startDate' value={form.startDate} onChange={this.handleChange}/>
+        <PickerItem label={'结束时间'} mode={'date'} name='endDate' value={form.endDate} onChange={this.handleChange}/>
+        <SliderItem label='紧急程度' max={5} name='emergency_level' value={form.emergency_level}
+                    onChange={this.handleChange}/>
+        <AtInput
+          name='workload'
+          title='工作量'
+          type='number'
+          placeholder='工作量'
+          value={form.workload}
           onChange={this.handleChange}
-          maxlength='200'
-          placeholder='你的问题是...'
         />
+        <PickerItem label={'责任人'} mode={'selector'} name='responsible_user_id' value={form.responsible_user_id} onChange={this.handleChange}/>
+        <TextareaItem label={'描述'} mode={'selector'} name='responsible_user_id' value={form.responsible_user_id} onChange={this.handleChange}/>
+
+        <View className="submit-line">
+
+          <AtButton formType={'submit'} type={'primary'}>发布</AtButton>
+        </View>
+
       </AtForm>
     )
   }
