@@ -18,14 +18,11 @@ export default class SliderItem extends Component {
 
   }
 
-  onChangeValue({detail}) {
-
-    const value = {
-      id: this.props.name,
-      value: detail.value
-    };
-    this.setState({value: detail.value});
-    this.props.onChange && this.props.onChange(value);
+  onChangeValue(event) {
+    const value = event.currentTarget.value;
+    event.currentTarget.id = this.props.name;
+    this.setState({value});
+    this.props.onChange && this.props.onChange(value , event);
   }
 
 

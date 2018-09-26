@@ -6,7 +6,7 @@ import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Textarea, Button, Form, Icon, Picker} from '@tarojs/components'
 import './addTask.less';
 import ajax from '../../utils/ajax';
-import {AtInput, AtForm, AtTextarea , AtButton} from 'taro-ui';
+import {AtInput, AtForm, AtTextarea, AtButton} from 'taro-ui';
 import PickerItem from "../../components/PickerItem";
 import SliderItem from "../../components/SliderItem";
 import TextareaItem from "../../components/TextareaItem";
@@ -28,15 +28,11 @@ export default class Index extends Component {
     }
   }
 
-  onChangeField({detail, currentTarget}) {
-    const {form} = this.state;
-    form[currentTarget.dataset.field] = detail.value;
-    this.setState({form});
-  }
 
-  async onSubmit({detail: {value}}) {
-    const result = await ajax({url: '/api/task/add', data: value});
-    console.log(result);
+  async onSubmit(data, a, b, c) {
+    console.log(data, a, b, c);
+    // const result = await ajax({url: '/api/task/add', data: value});
+    // console.log(result);
   }
 
   handleChange(value, {currentTarget}) {
@@ -50,7 +46,8 @@ export default class Index extends Component {
   render() {
     const {form} = this.state;
     return (
-      <AtForm className='index-page' onSubmit={this.onSubmit}>
+
+      <AtForm className='index-page' onSubmit={this.onSubmit.bind(this)} reportSubmit>
         <AtInput
           name='title'
           title='标题'
@@ -71,11 +68,14 @@ export default class Index extends Component {
           value={form.workload}
           onChange={this.handleChange}
         />
-        <PickerItem label={'责任人'} mode={'selector'} name='responsible_user_id' value={form.responsible_user_id} onChange={this.handleChange}/>
-        <TextareaItem label={'描述'} mode={'selector'} name='responsible_user_id' value={form.responsible_user_id} onChange={this.handleChange}/>
+        <PickerItem label={'责任人'} mode={'selector'} name='responsible_user_id' value={form.responsible_user_id}
+                    onChange={this.handleChange}/>
+        <TextareaItem label={'描述'} mode={'selector'} name='responsible_user_id' value={form.responsible_user_id}
+                      onChange={this.handleChange}/>
+
+        <Textarea name={'test'}></Textarea>
 
         <View className="submit-line">
-
           <AtButton formType={'submit'} type={'primary'}>发布</AtButton>
         </View>
 
