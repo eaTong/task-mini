@@ -18,19 +18,31 @@ export default class Index extends Component {
     navigationBarTitleText: '发布任务'
   };
   state = {
-    form: {}
+    form: {},
+    employees: []
   };
 
-  componentDidMount(a) {
+  async componentDidMount(a) {
     const params = this.$router.params;
     if (params) {
       this.setState({form: {draftId: params.draftId, title: params.draftName}});
     }
+    await this.getEmployees();
+  }
+
+  async getEmployees() {
+    const employees = await ajax({url: '/api/user/get'});
+    // this.setState({employees: employees.map(emp => ({label: emp.name, value: emp.id}))});
+    this.setState({employees});
+    console.log(employees);
   }
 
 
-  async onSubmit(data, a, b, c) {
-    console.log(data, a, b, c);
+  async onSubmit({detail}) {
+    const data = {formId: detail.formId, ...this.state.form};
+    const result = await ajax({data, url: '/api/task/add'});
+    console.log(result);
+    // console.log(data, a, b, c);
     // const result = await ajax({url: '/api/task/add', data: value});
     // console.log(result);
   }
@@ -44,42 +56,69 @@ export default class Index extends Component {
   }
 
   render() {
-    const {form} = this.state;
+    const {form, employees} = this.state;
     return (
 
-      <AtForm className='index-page' onSubmit={this.onSubmit.bind(this)} reportSubmit>
-        <AtInput
-          name='title'
-          title='标题'
-          type='text'
-          placeholder='标题'
-          value={form.title}
-          onChange={this.handleChange}
-        />
-        <PickerItem label={'开始时间'} mode={'date'} name='startDate' value={form.startDate} onChange={this.handleChange}/>
-        <PickerItem label={'结束时间'} mode={'date'} name='endDate' value={form.endDate} onChange={this.handleChange}/>
-        <SliderItem label='紧急程度' max={5} name='emergency_level' value={form.emergency_level}
-                    onChange={this.handleChange}/>
-        <AtInput
-          name='workload'
-          title='工作量'
-          type='number'
-          placeholder='工作量'
-          value={form.workload}
-          onChange={this.handleChange}
-        />
-        <PickerItem label={'责任人'} mode={'selector'} name='responsible_user_id' value={form.responsible_user_id}
-                    onChange={this.handleChange}/>
-        <TextareaItem label={'描述'} mode={'selector'} name='responsible_user_id' value={form.responsible_user_id}
-                      onChange={this.handleChange}/>
+      <Form onSubmit={this.onSubmit.bind(this)} reportSubmit>
+        <AtForm className='index-page'>
+          <AtInput
+            name='title'
+            title='标题'
+            type='text'
+            placeholder='标题'
+            value={form.title}
+            onChange={this.handleChange}
+          />
+          <PickerItem
+            label={'开始时间'}
+            mode={'date'}
+            name='plan_start_date'
+            value={form.plan_start_date}
+            onChange={this.handleChange}
+          />
+          <PickerItem
+            label={'结束时间'}
+            mode={'date'}
+            name='plan_end_date'
+            value={form.plan_end_date}
+            onChange={this.handleChange}
+          />
+          <SliderItem
+            label='紧急程度'
+            max={5}
+            name='emergent_level'
+            value={form.emergent_level}
+            onChange={this.handleChange}
+          />
+          <AtInput
+            name='workload'
+            title='工作量'
+            type='number'
+            placeholder='工作量'
+            value={form.workload}
+            onChange={this.handleChange}
+          />
+          <PickerItem
+            label={'责任人'}
+            mode={'selector'}
+            range={employees}
+            rangeKey={'name'}
+            name='responsible_user_id'
+            value={form.responsible_user_id}
+            onChange={this.handleChange}
+          />
+          <TextareaItem
+            label={'描述'}
+            name='description'
+            value={form.description}
+            onChange={this.handleChange}
+          />
 
-        <Textarea name={'test'}></Textarea>
-
-        <View className="submit-line">
-          <AtButton formType={'submit'} type={'primary'}>发布</AtButton>
-        </View>
-
-      </AtForm>
+          <View className="submit-line">
+            <Button formType={'submit'} type={'primary'}>发布</Button>
+          </View>
+        </AtForm>
+      </Form>
     )
   }
 }

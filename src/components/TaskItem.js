@@ -5,8 +5,6 @@
 import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components';
 import {emergentLevel, importantLevel} from '../utils/constants';
-import {AtTag} from 'taro-ui';
-import './taskItem.less'
 import TaskChildren from "./TaskChildren";
 
 export default class TaskItem extends Component {

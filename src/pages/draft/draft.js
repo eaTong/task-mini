@@ -1,4 +1,4 @@
-import Taro, {Component} from '@tarojs/taro'
+import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Button, Icon, Checkbox, Label, Switch} from '@tarojs/components'
 import './draft.less';
 import ajax from '../../utils/ajax';
@@ -66,6 +66,8 @@ export default class Draft extends Component {
 
   translateToTask({currentTarget}) {
     const draft = currentTarget.dataset.draft;
+    navigateTo({url: `/pages/addTask/addTask?draftId=${draft.id}&draftName=${draft.title}`});
+
   }
 
   render() {

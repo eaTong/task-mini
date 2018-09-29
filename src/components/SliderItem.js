@@ -28,7 +28,7 @@ export default class SliderItem extends Component {
 
   render() {
     const {value} = this.state;
-    const {label, max, min, step,} = this.props;
+    const {label, max, min, step,name} = this.props;
     return (
 
       <View className="wa-form-item">
@@ -39,6 +39,7 @@ export default class SliderItem extends Component {
             className="value"
             showValue
             value={value}
+            name={name}
             onChange={this.onChangeValue.bind(this)}
             blockSize={12}
             max={max ||100} min={min ||1} step={step ||1}/>

@@ -1,7 +1,6 @@
 import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components'
 import './index.less';
-import {AtSegmentedControl} from 'taro-ui';
 import ajax from '../../utils/ajax';
 import {emergentLevel, importantLevel} from '../../utils/constants';
 import TaskItem from '../../components/TaskItem';
@@ -52,7 +51,7 @@ export default class Index extends Component {
   }
 
   publishTask() {
-    navigateTo({url: '/pages/addTask/addTask?draftId=1&draftName=ahahahah'});
+    navigateTo({url: '/pages/addTask/addTask'});
   }
 
 
@@ -87,9 +86,9 @@ export default class Index extends Component {
       <View className='index-page'>
         <View className="task-group">
           {/*<AtSegmentedControl*/}
-            {/*values={['未完成', '所有任务']}*/}
-            {/*onClick={this.onChangeSegmented.bind(this)}*/}
-            {/*current={currentTab}*/}
+          {/*values={['未完成', '所有任务']}*/}
+          {/*onClick={this.onChangeSegmented.bind(this)}*/}
+          {/*current={currentTab}*/}
           {/*/>*/}
           {myTask.map(item => (
             <TaskItem key={item.id} task={item} isRoot/>
