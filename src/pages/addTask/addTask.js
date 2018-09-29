@@ -12,7 +12,7 @@ import SliderItem from "../../components/SliderItem";
 import TextareaItem from "../../components/TextareaItem";
 
 
-export default class Index extends Component {
+export default class AddTask extends Component {
 
   config = {
     navigationBarTitleText: '发布任务'
