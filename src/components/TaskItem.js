@@ -14,13 +14,17 @@ export default class TaskItem extends Component {
 
   render() {
     const {task, isRoot} = this.props;
-    const emergentItem = emergentLevel[task.emergent_level - 1];
+    const emergentItem = emergentLevel[task.emergentLevel - 1];
     return (
       <View className={`task-item ${isRoot ? 'root' : ''}`} key="id">
         <View className="title-bar">
-          <Text className={`tag tag-level-${task.emergent_level}`}>{emergentItem.label}</Text>
+          <Text className={`tag tag-level-${task.emergentLevel}`}>{emergentItem.label}</Text>
           <View className="title">{task.title}</View>
-          <View className='percentage'>{`${task.complete_percent}%`}</View>
+          <View className='percentage'>{`${task.completePercent}%`}</View>
+        </View>
+        <View className="content">
+          <View className="time">{`${task.planStartDate}~${task.planStartDate}`}</View>
+          <View className="responsible-user">{task.responsibleUser.name}</View>
         </View>
         {task.children && task.children.length > 0 && (
           <TaskChildren childrenTasks={task.children}/>

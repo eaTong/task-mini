@@ -72,22 +72,22 @@ export default class AddTask extends Component {
           <PickerItem
             label={'开始时间'}
             mode={'date'}
-            name='plan_start_date'
-            value={form.plan_start_date}
+            name='planStartDate'
+            value={form.planStartDate}
             onChange={this.handleChange}
           />
           <PickerItem
             label={'结束时间'}
             mode={'date'}
-            name='plan_end_date'
-            value={form.plan_end_date}
+            name='planEndDate'
+            value={form.planEndDate}
             onChange={this.handleChange}
           />
           <SliderItem
             label='紧急程度'
             max={5}
-            name='emergent_level'
-            value={form.emergent_level}
+            name='emergentLevel'
+            value={form.emergentLevel}
             onChange={this.handleChange}
           />
           <AtInput
@@ -103,8 +103,8 @@ export default class AddTask extends Component {
             mode={'selector'}
             range={employees}
             rangeKey={'name'}
-            name='responsible_user_id'
-            value={form.responsible_user_id}
+            name='responsibleUserId'
+            value={form.responsibleUserId}
             onChange={this.handleChange}
           />
           <TextareaItem

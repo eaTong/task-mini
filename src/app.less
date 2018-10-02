@@ -130,7 +130,7 @@ button.button-hover[type=primary] {
   }
   .title-bar {
     display: flex;
-    padding: 20px 10px;
+    padding: 20px 10px 0;
     .tag {
       border: 1px solid @bgColor;
       color: #fff;
@@ -158,12 +158,26 @@ button.button-hover[type=primary] {
       flex: 1;
       margin-left: 10px;
       font-size: 30px;
-      line-height: 1.9;
+      padding-top: 10px;
     }
     .percentage {
       font-size: 30px;
       line-height: 1.9;
 
+    }
+  }
+  .content{
+    padding:10px;
+    display: flex;
+
+    .time{
+      flex:1;
+      font-size: 24px;
+      color:@darkTextColor;
+    }
+    .responsible-user{
+      font-size: 28px;
+      color:@mainColor;
     }
   }
 }

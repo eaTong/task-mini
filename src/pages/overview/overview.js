@@ -1,11 +1,11 @@
 import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components'
-import './index.less';
+import './overview.less';
 import ajax from '../../utils/ajax';
-import {emergentLevel, importantLevel} from '../../utils/constants';
+import {emergentLevel} from '../../utils/constants';
 import TaskItem from '../../components/TaskItem';
 
-export default class Index extends Component {
+export default class Overview extends Component {
 
   config = {
     navigationBarTitleText: '我的任务'
@@ -34,7 +34,7 @@ export default class Index extends Component {
 
   async getMyTask() {
     const groupedTasks = emergentLevel.map(level => ({...level, tasks: []}));
-    const myTask = await ajax({url: "/api/task/mine"});
+    const myTask = await ajax({url: "/api/task/overview"});
     this.setState({myTask})
   }
 

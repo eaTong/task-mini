@@ -1,11 +1,11 @@
 import Taro, {Component} from '@tarojs/taro'
-import Index from './pages/index';
+import Overview from './pages/overview/overview';
 import './app.less'
 class App extends Component {
 
   config = {
     pages: [
-      'pages/index/index',
+      'pages/overview/overview',
       'pages/draft/draft',
       'pages/addTask/addTask',
     ],
@@ -36,7 +36,7 @@ class App extends Component {
 
   render() {
     return (
-      <Index/>
+      <Overview/>
     )
   }
 }
