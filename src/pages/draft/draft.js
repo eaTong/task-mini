@@ -23,7 +23,7 @@ export default class Draft extends Component {
 
   async getMyDrafts() {
     const myDrafts = await ajax({
-      url: '/api/draft/overview'
+      url: '/api/draft/mine'
     });
     this.setState({myDrafts});
   }

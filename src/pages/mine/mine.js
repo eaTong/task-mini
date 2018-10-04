@@ -1,15 +1,19 @@
+/**
+ * Created by eaTong on 2018/10/2 .
+ * Description:
+ */
 import Taro, {Component, navigateTo} from '@tarojs/taro'
 import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components'
-import './overview.less';
+import './mine.less';
 import ajax from '../../utils/ajax';
-import {emergentLevel} from '../../utils/constants';
-import TaskItem from '../../components/TaskItem';
+import FlatTaskItem from "../../components/FlatTaskItem";
 
-export default class Overview extends Component {
+export default class Mine extends Component {
 
   config = {
     navigationBarTitleText: '我的任务'
   };
+
   state = {
     myTask: [],
     groupedTasks: [],
@@ -33,7 +37,7 @@ export default class Overview extends Component {
   }
 
   async getMyTask() {
-    const myTask = await ajax({url: "/api/task/mine/overview"});
+    const myTask = await ajax({url: "/api/task/mine"});
     this.setState({myTask})
   }
 
@@ -62,11 +66,6 @@ export default class Overview extends Component {
     navigateTo({url: '/pages/addJournal/addJournal'});
   }
 
-  onChangeSegmented(currentTab) {
-    // console.log(a,b,c);
-    this.setState({currentTab});
-  }
-
   render() {
     const {checked, currentUser, myTask, groupedTasks, currentTab} = this.state;
     if (checked && !currentUser) {
@@ -84,20 +83,15 @@ export default class Overview extends Component {
     return (
       <View className='index-page'>
         <View className="task-group">
-          {/*<AtSegmentedControl*/}
-          {/*values={['未完成', '所有任务']}*/}
-          {/*onClick={this.onChangeSegmented.bind(this)}*/}
-          {/*current={currentTab}*/}
-          {/*/>*/}
           {myTask.map(item => (
-            <TaskItem key={item.id} task={item} isRoot/>
+            <FlatTaskItem key={item.id} task={item} isRoot/>
           ))}
         </View>
 
         <View className="operator-container">
 
           <View className="button warning">
-            <Text onClick={this.publishTask}>发布任务</Text>
+            <Text onClick={this.publishTask}>发布</Text>
           </View>
           <View className="button error" onClick={this.addDraft}>
             <Text>速记</Text>

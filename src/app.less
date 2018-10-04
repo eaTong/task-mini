@@ -137,7 +137,6 @@ button.button-hover[type=primary] {
       padding: 3px 10px;
       font-size: 26px;
       border-radius: 10px;
-      line-height: 56px;
       &.tag-level-5 {
         background-color: #ffccc7;
       }
@@ -174,10 +173,19 @@ button.button-hover[type=primary] {
       flex:1;
       font-size: 24px;
       color:@darkTextColor;
+      white-space: nowrap;
+      .number{
+        font-size: 40px;
+        margin:0 10px;
+      }
     }
     .responsible-user{
       font-size: 28px;
       color:@mainColor;
     }
   }
+}
+.required{
+  color:@errorColor;
+  margin-left:10px;
 }

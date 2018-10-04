@@ -39,7 +39,7 @@ export default class PickerItem extends Component {
 
   render() {
     const {value} = this.state;
-    const {label, mode, range, rangeKey, name} = this.props;
+    const {label, mode, range, rangeKey, name , required} = this.props;
     let showLabel = value;
     if (mode === 'selector') {
       showLabel = range[value] && range[value][rangeKey];
@@ -56,6 +56,7 @@ export default class PickerItem extends Component {
         <View className="wa-form-item">
           <View className="wa-form-item-container">
             <Text className="label">{label}</Text>
+            {required && (<Text class='required'>*</Text>)}
 
             <View className="value">
               {value ? <Text>{showLabel}</Text> : <Text className="placeholder">请选择</Text>}
