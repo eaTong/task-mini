@@ -20,7 +20,9 @@ export default class FlatTaskItem extends Component {
     const planDays = getDateDiff(task.planEndDate, task.planStartDate);
     const delayDays = task.workload - planDays - days;
     const endDays = daysFromToday(task.planEndDate);
-    if (days > 0) {
+    if(task.completePercent === 100){
+      timeInfo = <Text className="success-text">已完成</Text>
+    }else  if (days > 0) {
       timeInfo = (<Text><Text className="number">{days}</Text>天后开始</Text>)
     } else if (delayDays < 0) {
       timeInfo = (<Text className='success-text'><Text className="number">{ endDays }</Text>天后到期</Text>)

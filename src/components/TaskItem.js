@@ -20,7 +20,9 @@ export default class TaskItem extends Component {
     let timeInfo = null;
     const planDays = getDateDiff(task.planEndDate, task.planStartDate);
     const delayDays = task.workload - planDays - days;
-    if (days > 0) {
+    if(task.completePercent === 100){
+      timeInfo = <Text className="success-text">已完成</Text>
+    }else  if (days > 0) {
       timeInfo = (<Text><Text className="number">{days}</Text>天后开始</Text>)
     } else if (delayDays < 0) {
       const endDays = daysFromToday(task.planEndDate);
@@ -29,7 +31,7 @@ export default class TaskItem extends Component {
       timeInfo = (<Text className='error-text'><Text className="number">{delayDays}</Text>天延期</Text>)
     }
     return (
-      <View className={`task-item ${isRoot ? 'root' : ''}`} key="id" onClick={this.props.onClick} data-id={task.id} data-task={task}>
+      <View className={`task-item ${isRoot ? 'root' : ''}`} key={task.id} onClick={this.props.onClick} data-id={task.id} data-task={task}>
         <View className="title-bar">
           <Text className={`tag tag-level-${task.emergentLevel}`}>{emergentItem.label}</Text>
           <View className="title">{task.title}</View>
@@ -40,7 +42,7 @@ export default class TaskItem extends Component {
           <View className="responsible-user">{task.responsibleUser.name}</View>
         </View>
         {task.children && task.children.length > 0 && (
-          <TaskChildren childrenTasks={task.children}/>
+          <TaskChildren childrenTasks={task.children} onClick={this.props.onClick}/>
         )}
       </View>
     );

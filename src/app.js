@@ -1,6 +1,7 @@
 import Taro, {Component} from '@tarojs/taro'
 import Overview from './pages/overview/overview';
-import './app.less'
+import './app.less';
+import './utils/prototype'
 class App extends Component {
 
   config = {

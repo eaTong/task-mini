@@ -3,7 +3,8 @@
  * Description:
  */
 import Taro, {Component, navigateTo} from '@tarojs/taro'
-import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components'
+import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components';
+import {AtSegmentedControl} from 'taro-ui';
 import './mine.less';
 import ajax from '../../utils/ajax';
 import FlatTaskItem from "../../components/FlatTaskItem";
@@ -20,7 +21,7 @@ export default class Mine extends Component {
     currentUser: null,
     checked: false,
     form: {},
-    currentTab: 0
+    currentTab: 0,
   };
 
   componentDidMount() {
@@ -36,8 +37,12 @@ export default class Mine extends Component {
     });
   }
 
+  onChangeSegmented(currentTab) {
+    this.setState({currentTab}, () => this.getMyTask())
+  }
+
   async getMyTask() {
-    const myTask = await ajax({url: "/api/task/mine"});
+    const myTask = await ajax({url: "/api/task/mine", data: {completed: this.state.currentTab === 1}});
     this.setState({myTask})
   }
 
@@ -65,11 +70,13 @@ export default class Mine extends Component {
   addJournal() {
     navigateTo({url: '/pages/addJournal/addJournal'});
   }
-  onCheckTaskItem({currentTarget}){
+
+  onCheckTaskItem({currentTarget}) {
     navigateTo({url: `/pages/taskDetail/taskDetail?id=${currentTarget.dataset.id}`});
   }
+
   render() {
-    const {checked, currentUser, myTask, groupedTasks, currentTab} = this.state;
+    const {checked, currentUser, myTask, currentTab} = this.state;
     if (checked && !currentUser) {
       return (
         <View className="index-page">
@@ -84,7 +91,15 @@ export default class Mine extends Component {
     }
     return (
       <View className='index-page'>
-        <View className="task-group">
+        <View className="header-segmented">
+
+          <AtSegmentedControl
+            values={['未完成', '已完成']}
+            onClick={this.onChangeSegmented.bind(this)}
+            current={currentTab}
+          />
+        </View>
+        <View className="task-list">
           {myTask.map(item => (
             <FlatTaskItem key={item.id} task={item} isRoot onClick={this.onCheckTaskItem.bind(this)} data-id={item.id}/>
           ))}

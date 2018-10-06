@@ -39,17 +39,16 @@ export default class TaskDetail extends Component {
     const timeLineLogs = taskLogs.map(log => {
       return {
         title: log.task.title,
-        content: [`进度更新：${log.beforePercent} 至 ${log.afterPercent}`, log.content],
+        content: [`进度更新：${log.beforePercent} 至 ${log.afterPercent}`, log.content, `时间：${new Date(log.createdAt).format('YYYY-MM-DD')}`],
         icon: log.afterPercent === 100 ? 'check-circle' : 'clock'
       }
     });
     return (
       <View className="task-detail">
-        {tasks.map(task => <TaskItem task={task} isRoot/>)}
+        {tasks.map(task => <TaskItem task={task} isRoot key={task.id}/>)}
 
         <View className="task-logs">
-          <AtTimeline items={timeLineLogs}>
-          </AtTimeline>
+          <AtTimeline items={timeLineLogs}/>
         </View>
 
         <View className="operator-container">

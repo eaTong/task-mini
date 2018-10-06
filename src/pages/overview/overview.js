@@ -1,8 +1,8 @@
 import Taro, {Component, navigateTo} from '@tarojs/taro'
-import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components'
+import {View, Text, Input, Button, Icon, Progress} from '@tarojs/components';
+import {AtSegmentedControl} from 'taro-ui';
 import './overview.less';
 import ajax from '../../utils/ajax';
-import {emergentLevel} from '../../utils/constants';
 import TaskItem from '../../components/TaskItem';
 
 export default class Overview extends Component {
@@ -63,8 +63,10 @@ export default class Overview extends Component {
   }
 
   onChangeSegmented(currentTab) {
-    // console.log(a,b,c);
     this.setState({currentTab});
+  }
+  onCheckTaskItem({currentTarget}){
+    navigateTo({url: `/pages/taskDetail/taskDetail?id=${currentTarget.dataset.id}`});
   }
 
   render() {
@@ -83,14 +85,17 @@ export default class Overview extends Component {
     }
     return (
       <View className='index-page'>
-        <View className="task-group">
-          {/*<AtSegmentedControl*/}
-          {/*values={['未完成', '所有任务']}*/}
-          {/*onClick={this.onChangeSegmented.bind(this)}*/}
-          {/*current={currentTab}*/}
-          {/*/>*/}
+        <View className="header-segmented">
+
+          <AtSegmentedControl
+            values={['未完成', '已完成']}
+            onClick={this.onChangeSegmented.bind(this)}
+            current={currentTab}
+          />
+        </View>
+        <View className="task-list">
           {myTask.map(item => (
-            <TaskItem key={item.id} task={item} isRoot/>
+            <TaskItem key={item.id} task={item} isRoot onClick={this.onCheckTaskItem}/>
           ))}
         </View>
 

@@ -14,7 +14,7 @@ export default class TaskChildren extends Component {
   render() {
     const {childrenTasks} = this.props;
     return (<View className="task-children">
-      {childrenTasks.map(childTask => (<TaskItem task={childTask} key={childTask.id}/>))}
+      {childrenTasks.map(childTask => (<TaskItem task={childTask} key={childTask.id}  onClick={this.props.onClick}/>))}
     </View>);
   }
 }
