@@ -66,8 +66,7 @@ export default class Draft extends Component {
 
   translateToTask({currentTarget}) {
     const draft = currentTarget.dataset.draft;
-    navigateTo({url: `/pages/addTask/addTask?draftId=${draft.id}&draftName=${draft.title}`});
-
+    navigateTo({url: `/pages/addTask/addTask?draftId=${draft.id}&title=${draft.title}`});
   }
 
   render() {

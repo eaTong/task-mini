@@ -2,7 +2,7 @@
  * Created by eaTong on 2018/10/4 .
  * Description:
  */
-import Taro, {Component, navigateTo} from '@tarojs/taro'
+import Taro, {Component, navigateBack} from '@tarojs/taro'
 import {View, Text, Input, Textarea, Button, Form, Icon, Picker} from '@tarojs/components'
 import ajax from '../../utils/ajax';
 import {AtInput, AtForm, AtTextarea, AtButton} from 'taro-ui';
@@ -32,6 +32,7 @@ export default class AddTask extends Component {
   async onSubmit({detail}) {
     const data = {formId: detail.formId, ...this.state.form,taskId:this.$router.params.id};
     const result = await ajax({data, url: '/api/taskLog/add'});
+    navigateBack();
   }
 
   handleChange(value, {currentTarget}) {

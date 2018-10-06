@@ -1,8 +1,8 @@
 let cookie = '';
-const app = getApp();
 
 export default function ajax(config) {
   return new Promise((resolve, reject) => {
+    const app = getApp();
     wx.request({
       url: `https://task.eatong.cn${config.url}`,
       data: config.data,

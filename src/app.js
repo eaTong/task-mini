@@ -2,6 +2,7 @@ import Taro, {Component} from '@tarojs/taro'
 import Overview from './pages/overview/overview';
 import './app.less';
 import './utils/prototype'
+import ajax from "./utils/ajax";
 class App extends Component {
 
   config = {
@@ -40,20 +41,23 @@ class App extends Component {
   };
 
   globalData = {
-    primaryColor:"#2f54eb"
+    primaryColor:"#2f54eb",
+    checked :false,
+    currentUser:null
   };
 
   componentDidMount() {
-
-  }
-
-  componentDidShow() {
-  }
-
-  componentDidHide() {
-  }
-
-  componentCatchError() {
+    wx.login({
+      success: async (res) => {
+        const result = await ajax({url: '/api/user/loginByCode', data: {code: res.code}});
+        const app = getApp();
+        app.globalData.checked = true;
+        if(result.user){
+          app.globalData.currentUser = result.user;
+          app.onLoginSuccess && app.onLoginSuccess();
+        }
+      }
+    });
   }
 
   render() {

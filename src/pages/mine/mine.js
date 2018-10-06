@@ -9,10 +9,12 @@ import './mine.less';
 import ajax from '../../utils/ajax';
 import FlatTaskItem from "../../components/FlatTaskItem";
 
+const app = getApp();
+
 export default class Mine extends Component {
 
   config = {
-    navigationBarTitleText: '我的任务'
+    navigationBarTitleText: '我负责的'
   };
 
   state = {
@@ -24,18 +26,16 @@ export default class Mine extends Component {
     currentTab: 0,
   };
 
-  componentDidMount() {
-    wx.login({
-      success: async (res) => {
-        const result = await ajax({url: '/api/user/loginByCode', data: {code: res.code}});
-        this.setState({checked: true});
-        if (result.user) {
-          this.getMyTask();
-          this.setState({currentUser: result.user});
-        }
+  componentDidShow(){
+    if(app.globalData.currentUser){
+      this.getMyTask();
+    }else {
+      app.onLoginSuccess =()=>{
+        this.getMyTask();
       }
-    });
+    }
   }
+
 
   onChangeSegmented(currentTab) {
     this.setState({currentTab}, () => this.getMyTask())

@@ -5,10 +5,12 @@ import './overview.less';
 import ajax from '../../utils/ajax';
 import TaskItem from '../../components/TaskItem';
 
+const app = getApp();
+
 export default class Overview extends Component {
 
   config = {
-    navigationBarTitleText: '我的任务'
+    navigationBarTitleText: '概览'
   };
   state = {
     myTask: [],
@@ -19,22 +21,23 @@ export default class Overview extends Component {
     currentTab: 0
   };
 
-  componentDidMount() {
-    wx.login({
-      success: async (res) => {
-        const result = await ajax({url: '/api/user/loginByCode', data: {code: res.code}});
-        this.setState({checked: true});
-        if (result.user) {
-          this.getMyTask();
-          this.setState({currentUser: result.user});
-        }
+  componentDidShow(){
+    if(app.globalData.currentUser){
+      this.getMyTask();
+    }else {
+      app.onLoginSuccess =()=>{
+        this.getMyTask();
       }
-    });
+    }
   }
 
   async getMyTask() {
-    const myTask = await ajax({url: "/api/task/mine/overview"});
+    const myTask = await ajax({url: "/api/task/mine/overview", data: {completed: this.state.currentTab === 1}});
     this.setState({myTask})
+  }
+
+  onChangeSegmented(currentTab) {
+    this.setState({currentTab}, () => this.getMyTask())
   }
 
   onChangeField({detail, currentTarget}) {
@@ -60,10 +63,6 @@ export default class Overview extends Component {
 
   addJournal() {
     navigateTo({url: '/pages/addJournal/addJournal'});
-  }
-
-  onChangeSegmented(currentTab) {
-    this.setState({currentTab});
   }
   onCheckTaskItem({currentTarget}){
     navigateTo({url: `/pages/taskDetail/taskDetail?id=${currentTarget.dataset.id}`});

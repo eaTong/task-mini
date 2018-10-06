@@ -9,7 +9,6 @@ import {View, Text} from '@tarojs/components';
 import {AtTimeline} from 'taro-ui'
 import './taskDetail.less'
 
-
 export default class TaskDetail extends Component {
 
   config = {
@@ -20,7 +19,7 @@ export default class TaskDetail extends Component {
     taskLogs: []
   };
 
-  async componentDidMount(a) {
+  async componentDidShow() {
     await this.getTaskDetail();
   }
 
@@ -32,6 +31,11 @@ export default class TaskDetail extends Component {
 
   updateTaskLog() {
     navigateTo({url: `/pages/updateTaskLog/updateTaskLog?id=${this.$router.params.id}`})
+  }
+
+
+  addChildTask() {
+    navigateTo({url: `/pages/addTask/addTask?parentCode=${this.state.tasks[0].code}`})
   }
 
   render() {
@@ -52,6 +56,9 @@ export default class TaskDetail extends Component {
         </View>
 
         <View className="operator-container">
+          <View className="button success" onClick={this.addChildTask.bind(this)}>
+            <Text>派生</Text>
+          </View>
           <View className="button primary" onClick={this.updateTaskLog.bind(this)}>
             <Text>更新</Text>
           </View>

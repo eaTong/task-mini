@@ -2,7 +2,7 @@
  * Created by eaTong on 2018/8/30 .
  * Description:
  */
-import Taro, {Component, navigateTo} from '@tarojs/taro'
+import Taro, {Component, navigateBack} from '@tarojs/taro'
 import {View, Text, Input, Textarea, Button, Form, Icon, Picker} from '@tarojs/components'
 import './addTask.less';
 import ajax from '../../utils/ajax';
@@ -18,14 +18,16 @@ export default class AddTask extends Component {
     navigationBarTitleText: '发布任务'
   };
   state = {
-    form: {},
+    form: {emergentLevel: 1},
     employees: []
   };
 
   async componentDidMount(a) {
     const params = this.$router.params;
+    delete params['/pages/addTask/addTask'];
+    console.log(params);
     if (params) {
-      this.setState({form: {draftId: params.draftId, title: params.draftName}});
+      this.setState({form: {emergentLevel:1, ...params}});
     }
     await this.getEmployees();
   }
@@ -34,22 +36,16 @@ export default class AddTask extends Component {
     const employees = await ajax({url: '/api/user/get'});
     // this.setState({employees: employees.map(emp => ({label: emp.name, value: emp.id}))});
     this.setState({employees});
-    console.log(employees);
   }
 
 
   async onSubmit({detail}) {
     const data = {formId: detail.formId, ...this.state.form};
     const result = await ajax({data, url: '/api/task/add'});
-    console.log(result);
-    // console.log(data, a, b, c);
-    // const result = await ajax({url: '/api/task/add', data: value});
-    // console.log(result);
+    navigateBack();
   }
 
   handleChange(value, {currentTarget}) {
-    console.log(value, currentTarget);
-    // this.setData?
     const {form} = this.state;
     form[currentTarget.id] = value;
     this.setState({form});
@@ -57,6 +53,7 @@ export default class AddTask extends Component {
 
   render() {
     const {form, employees} = this.state;
+    console.log(form);
     return (
 
       <Form onSubmit={this.onSubmit.bind(this)} reportSubmit>
@@ -86,6 +83,7 @@ export default class AddTask extends Component {
           <SliderItem
             label='紧急程度'
             max={5}
+            min={1}
             name='emergentLevel'
             value={form.emergentLevel}
             onChange={this.handleChange}
