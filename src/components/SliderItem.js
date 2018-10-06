@@ -14,21 +14,28 @@ export default class SliderItem extends Component {
     addGlobalClass: true
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    this.state.value = this.props.value ||1;
+  }
 
+  componentWillReceiveProps(nextProp) {
+    if(nextProp.value !== this.state.value){
+      this.setState({value:nextProp.value});
+    }
   }
 
   onChangeValue(event) {
     const value = event.currentTarget.value;
     event.currentTarget.id = this.props.name;
     this.setState({value});
-    this.props.onChange && this.props.onChange(value , event);
+    this.props.onChange && this.props.onChange(value, event);
   }
 
 
   render() {
     const {value} = this.state;
-    const {label, max, min, step,name} = this.props;
+    const {label, max, min, step, name} = this.props;
+    console.log(this.props.value);
     return (
 
       <View className="wa-form-item">
@@ -38,11 +45,14 @@ export default class SliderItem extends Component {
           <Slider
             className="value"
             showValue
-            value={value}
+            value={this.props.value || value}
             name={name}
             onChange={this.onChangeValue.bind(this)}
             blockSize={12}
-            max={max ||100} min={min ||1} step={step ||1}/>
+            max={max === undefined ? 100 : max}
+            min={min === undefined ? 1 : min}
+            step={step === undefined ? 1 : step}
+          />
 
         </View>
       </View>

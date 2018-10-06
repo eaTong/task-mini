@@ -2,11 +2,12 @@
  * Created by eaTong on 2018/8/30 .
  * Description:
  */
-import Taro, {Component, navigateTo} from '@tarojs/taro'
-import {View, Text, Input, Textarea, Button, Form, Icon, Picker} from '@tarojs/components'
-import './addTask.less';
+import Taro, {Component, navigateTo} from '@tarojs/taro';
 import ajax from '../../utils/ajax';
 import TaskItem from "../../components/TaskItem";
+import {View, Text} from '@tarojs/components';
+import {AtTimeline} from 'taro-ui'
+import './taskDetail.less'
 
 
 export default class TaskDetail extends Component {
@@ -15,7 +16,8 @@ export default class TaskDetail extends Component {
     navigationBarTitleText: '任务详情'
   };
   state = {
-    taskDetail: {}
+    tasks: {},
+    taskLogs: []
   };
 
   async componentDidMount(a) {
@@ -24,14 +26,38 @@ export default class TaskDetail extends Component {
 
   async getTaskDetail() {
     const params = this.$router.params;
-    const taskDetail = await ajax({data: {id: params.id}, url: '/api/task/detail'});
-    this.setState({taskDetail});
+    const taskDetail = await ajax({data: {id: params.id}, url: '/api/task/detail/structured'});
+    this.setState(taskDetail);
+  }
+
+  updateTaskLog() {
+    navigateTo({url: `/pages/updateTaskLog/updateTaskLog?id=${this.$router.params.id}`})
   }
 
   render() {
-    const {taskDetail} = this.state;
+    const {taskLogs, tasks} = this.state;
+    const timeLineLogs = taskLogs.map(log => {
+      return {
+        title: log.task.title,
+        content: [`进度更新：${log.beforePercent} 至 ${log.afterPercent}`, log.content],
+        icon: log.afterPercent === 100 ? 'check-circle' : 'clock'
+      }
+    });
     return (
-      <TaskItem task ={taskDetail}/>
+      <View className="task-detail">
+        {tasks.map(task => <TaskItem task={task} isRoot/>)}
+
+        <View className="task-logs">
+          <AtTimeline items={timeLineLogs}>
+          </AtTimeline>
+        </View>
+
+        <View className="operator-container">
+          <View className="button primary" onClick={this.updateTaskLog.bind(this)}>
+            <Text>更新</Text>
+          </View>
+        </View>
+      </View>
     )
   }
 }

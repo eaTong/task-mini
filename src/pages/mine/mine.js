@@ -65,7 +65,9 @@ export default class Mine extends Component {
   addJournal() {
     navigateTo({url: '/pages/addJournal/addJournal'});
   }
-
+  onCheckTaskItem({currentTarget}){
+    navigateTo({url: `/pages/taskDetail/taskDetail?id=${currentTarget.dataset.id}`});
+  }
   render() {
     const {checked, currentUser, myTask, groupedTasks, currentTab} = this.state;
     if (checked && !currentUser) {
@@ -84,7 +86,7 @@ export default class Mine extends Component {
       <View className='index-page'>
         <View className="task-group">
           {myTask.map(item => (
-            <FlatTaskItem key={item.id} task={item} isRoot/>
+            <FlatTaskItem key={item.id} task={item} isRoot onClick={this.onCheckTaskItem.bind(this)} data-id={item.id}/>
           ))}
         </View>
 

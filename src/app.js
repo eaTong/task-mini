@@ -9,6 +9,8 @@ class App extends Component {
       'pages/overview/overview',
       'pages/draft/draft',
       'pages/addTask/addTask',
+      'pages/taskDetail/taskDetail',
+      'pages/updateTaskLog/updateTaskLog',
     ],
     window: {
       backgroundTextStyle: 'light',

@@ -31,7 +31,7 @@ export default class FlatTaskItem extends Component {
       </Text>)
     }
     return (
-      <View className={`task-item ${isRoot ? 'root' : ''}`} key="id">
+      <View className={`task-item ${isRoot ? 'root' : ''}`} key="id" onClick={this.props.onClick} data-id={task.id} data-task={task}>
         <View className="title-bar">
           <Text className={`tag tag-level-${task.emergentLevel}`}>{emergentItem.label}</Text>
           <View className="title">{task.title}</View>
