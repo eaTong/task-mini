@@ -1,13 +1,14 @@
-import Taro, {Component} from '@tarojs/taro'
-import Overview from './pages/overview/overview';
+import Taro, {Component , navigateTo} from '@tarojs/taro'
 import './app.less';
 import './utils/prototype'
 import ajax from "./utils/ajax";
-class App extends Component {
+import Bind from "./pages/bind/bind";
 
+class App extends Component {
   config = {
     pages: [
       'pages/mine/mine',
+      'pages/bind/bind',
       'pages/overview/overview',
       'pages/draft/draft',
       'pages/addTask/addTask',
@@ -55,15 +56,15 @@ class App extends Component {
         if(result.user){
           app.globalData.currentUser = result.user;
           app.onLoginSuccess && app.onLoginSuccess();
+        }else{
+          navigateTo({url:'/pages/bind/bind'});
         }
       }
     });
   }
 
   render() {
-    return (
-      <Overview/>
-    )
+    return <Bind/>
   }
 }
 

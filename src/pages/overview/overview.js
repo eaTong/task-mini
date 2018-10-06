@@ -69,19 +69,7 @@ export default class Overview extends Component {
   }
 
   render() {
-    const {checked, currentUser, myTask, groupedTasks, currentTab} = this.state;
-    if (checked && !currentUser) {
-      return (
-        <View className="index-page">
-          <View className='bind-container'>
-            <Input className="row" placeholder='账号' onChange={this.onChangeField.bind(this)} data-field={'account'}/>
-            <Input className="row" password placeholder='密码' onChange={this.onChangeField.bind(this)}
-                   data-field={'password'}/>
-            <Button onClick={this.bindUser.bind(this)}>绑定</Button>
-          </View>
-        </View>
-      )
-    }
+    const { myTask, currentTab} = this.state;
     return (
       <View className='index-page'>
         <View className="header-segmented">
